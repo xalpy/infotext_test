@@ -7,7 +7,7 @@ import sys
 from model import ListOrg, Habr, db_session
 
 class ParserListOrg:
-    def __init__(self, url: str):
+    def __init__(self, url: str) -> None:
         self.user_agent = {'User-agent': 'Mozilla/5.0'}
         self.url = str(url)
 
@@ -15,7 +15,7 @@ class ParserListOrg:
         self.req = requests.get(self.url, headers=self.user_agent).text
 
     @staticmethod
-    def db_add(firm, args) -> None:
+    def db_add(firm: str, args: list) -> None:
         new_org = ListOrg(firm, args[0], args[1], args[2], args[3], args[4], args[5], args[6])
         try:
             db_session.add(new_org)
@@ -36,7 +36,7 @@ class ParserListOrg:
 
 
 class ParserHabr(ParserListOrg):
-    def __init__(self, count):
+    def __init__(self, count: int) -> None:
         self.count = count
         self.page = self.count//20
         self.post_count = self.count%20
@@ -47,7 +47,7 @@ class ParserHabr(ParserListOrg):
         self.req = requests.get(self.url).text
 
     @staticmethod
-    def db_add(nick, date, title, text):
+    def db_add(nick: str, date: str, title: str, text: str) -> None:
         new_post = Habr(nick, date, title, text)
         try:
             db_session.add(new_post)
